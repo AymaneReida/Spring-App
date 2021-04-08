@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Form patient</title>
+</head>
+<body>
+<div layout:fragment="pageContent">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">Enregistrement effectué avec succès</div>
+            <div class="card-body">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-4">ID : </label>
+                        <div class="col-8">
+                            <strong><label th:text="${patient.id}"></label></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-4">Nom : </label>
+                        <div class="col-8">
+                            <strong><label th:text="${patient.nom}"></label></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-4">Date Naissance : </label>
+                        <div class="col-8">
+                            <strong><label th:text="${patient.dateNaissance}"></label></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-4">Score : </label>
+                        <div class="col-8">
+                            <strong><label th:text="${patient.score}"></label></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-4">Malade : </label>
+                        <div class="col-8">
+                            <strong><label th:text="${patient.malade}"></label></strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
