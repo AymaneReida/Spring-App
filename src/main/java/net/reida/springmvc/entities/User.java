@@ -4,25 +4,36 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor @ToString
-public class Patient {
+public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
-    @Size(min = 5,max = 15)
-    private String nom;
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date dateNaissance;
-    @DecimalMin("4")
-    private int score;
-    private boolean malade;
+    @Column(nullable = false)
+    private String username;
+    @Column(nullable = false)
+    private String password;
+    private int active;
+    private String roles = "";
+    private String permissions = "";
+
+    public List<String> getRolesList(){
+        if(this.roles.length() > 0){
+            return Arrays.asList(this.roles.split(","));
+        }
+        return new ArrayList<>();
+    }
+
+    public List<String> getPermissionList(){
+        if(this.permissions.length() > 0){
+            return Arrays.asList(this.permissions.split(","));
+        }
+        return new ArrayList<>();
+    }
 }

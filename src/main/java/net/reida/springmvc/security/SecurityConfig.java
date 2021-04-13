@@ -3,6 +3,7 @@ package net.reida.springmvc.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,8 +16,10 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    /* @Autowired
+    private DataSource dataSource; */
     @Autowired
-    private DataSource dataSource;
+    private UserPrincipalDetailsService userPrincipalDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -32,12 +35,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication().withUser("admin").password("{noop}1234").roles("USER", "ADMIN"); */
         /* Pour le cas ou les utilisateurs sont stockés dans une base la même base de données de l’application
          */
-        auth.jdbcAuthentication()
+        /* auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select username as principal, password as credentials, active from users where username=?")
                 .authoritiesByUsernameQuery("select username as principal, role as role from users_roles where username=?")
                 .rolePrefix("ROLE_")
-                .passwordEncoder(passwordEncoder);
+                .passwordEncoder(passwordEncoder);*/
+       auth.authenticationProvider(authenticationProvider());
     }
 
     @Override
@@ -56,7 +60,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // http.exceptionHandling().accessDeniedPage("/notAuthorized");
     }
     @Bean
+    public DaoAuthenticationProvider authenticationProvider(){
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(this.userPrincipalDetailsService);
+        return daoAuthenticationProvider;
+    }
+    @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 }

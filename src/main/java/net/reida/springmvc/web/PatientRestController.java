@@ -25,6 +25,7 @@ public class PatientRestController {
     }
     @GetMapping(path = "/patients/{id}")
     public Patient getOne(@PathVariable Long id){
+
         return patientRepository.findById(id).get();
     }
 }
