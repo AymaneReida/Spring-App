@@ -1,2 +1,2 @@
-# Spring First App
-Back End Application with Spring Framework
+# Spring Application
+Spring Application with Thymeleaf.
